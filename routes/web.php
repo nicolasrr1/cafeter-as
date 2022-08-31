@@ -15,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/sales', 'SalesController@index');
+
+
 Route::post('/createProdust', 'ProductsController@createProduct');
 Route::post('/updateProduct','ProductsController@updateProduct');
 Route::get('/deleteProducts/{id}','ProductsController@deleteProducts');
+
+
 
 

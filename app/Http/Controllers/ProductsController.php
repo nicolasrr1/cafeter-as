@@ -19,6 +19,7 @@ class ProductsController extends Controller
             $response = DB::table('products')->select('products.*', 'category.name_category')
                 ->join('category', 'category.id', '=', 'products.category_id')
                 ->get();
+            return view('home')->with('products', $response);
         } catch (\Throwable $th) {
             $response = $th;
         }
@@ -42,9 +43,17 @@ class ProductsController extends Controller
             'category_id' => 'required'
         ]);
 
+
+
+        if ($request->hasFile('reference')) {
+            $file = $request->file('reference');
+            $destinationPath = "img/featureds/";
+            $filename = time() . '-' . $file->getClientOriginalName();
+            $uploadSuccess = $request->file('reference')->move($destinationPath, $filename);
+        }
         Products::create([
             'name' => $request->name,
-            'reference' => $request->reference,
+            'reference' => $destinationPath . $filename,
             'price' => $request->price,
             'weight' => $request->weight,
             'stock' => $request->stock,
@@ -75,11 +84,22 @@ class ProductsController extends Controller
                 'id' => 'required'
             ]);
 
+            if ($request->hasFile('reference2')) {
+                $file = $request->file('reference2');
+                $destinationPath = "img/featureds/";
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $uploadSuccess = $request->file('reference2')->move($destinationPath, $filename);
+                $reference = $destinationPath . $filename;
+            } else {
+                $reference = $request->reference;
+            }
+
+
             DB::table('products')
                 ->where('id', $request->id)
                 ->update([
                     'name' => $request->name,
-                    'reference' => $request->reference,
+                    'reference' => $reference,
                     'price' => $request->price,
                     'weight' => $request->weight,
                     'stock' => $request->stock,
