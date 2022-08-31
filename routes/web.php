@@ -22,6 +22,9 @@ Route::post('/createProdust', 'ProductsController@createProduct');
 Route::post('/updateProduct','ProductsController@updateProduct');
 Route::get('/deleteProducts/{id}','ProductsController@deleteProducts');
 
+Route::post('/createBasket','SalesController@create');
+Route::post('/sellBasket','SalesController@sell');
+
 
 
 

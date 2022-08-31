@@ -1,55 +1,85 @@
 @extends('layouts.app')
 
 @section('content')
+@include('sweetalert::alert')
+
     <div>
         {{-- formulario producto --}}
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Registros productos </h5>
-                <form method="POST" action="/createProdust" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="nameProduct" class="form-label">Nombre producto</label>
-                        <input type="text" name="name" class="form-control" id="nameProduct">
-                    </div>
-                    <div>
-                        <label for="reference" class="form-label">Referencia</label>
-                        <input name="reference" class="form-control form-control-lg" id="reference" type="file">
-                    </div>
+        <div class="containerForm">
+            <div class="card" style="width: 38rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Registros productos </h5>
+                    <form method="POST" action="/createProdust" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="nameProduct" class="form-label">Nombre producto</label>
+                            <input type="text" name="name" class="form-control" id="nameProduct">
+                            @error('name')
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="reference" class="form-label">Referencia</label>
+                            <input name="reference" class="form-control form-control-lg" id="reference" type="file">
+                            @error('reference')
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="price" class="form-label"> Precio </label>
-                        <input type="text" name="price" class="form-control" id="price">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="weight" class="form-label"> Peso </label>
-                        <input type="text" name="weight" class="form-control" id="weight">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="stock" class="form-label"> stock </label>
-                        <input type="text" name="stock" class="form-control" id="stock">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="category_id" class="form-label"> Categoría </label>
-                        <select name="category_id" class="form-label" id="category_id">
-                            @foreach ($category as $items)
-                                <option value="{{ $items->id }}">{{ $items->name_category }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label"> Precio </label>
+                            <input type="number" name="price" class="form-control" id="price">
+                            @error('price')
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
 
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                        <div class="mb-3">
+                            <label for="weight" class="form-label"> Peso </label>
+                            <input type="text" name="weight" class="form-control" id="weight">
+                            @error('weight')
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="stock" class="form-label"> stock </label>
+                            <input type="number" name="stock" class="form-control" id="stock">
+                            @error('stock')
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label"> Categoría </label>
+                            <select name="category_id" class="form-label" id="category_id">
+                                @foreach ($category as $items)
+                                    <option value="{{ $items->id }}">{{ $items->name_category }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
 
+        <br>
         {{-- tabla productos --}}
+        <div class="containerTable">
         <table class="table">
             <thead>
                 <tr>
@@ -65,6 +95,7 @@
             <tbody>
 
                 @foreach ($products as $items)
+                
                     <tr>
                         <th scope="row">{{ $items->id }}</th>
                         <td>{{ $items->name }}</td>
@@ -112,7 +143,7 @@
 
                                         <div class="mb-3">
                                             <label for="price" class="form-label"> Precio </label>
-                                            <input type="text" value="{{ $items->price }}" name="price"
+                                            <input type="number" value="{{ $items->price }}" name="price"
                                                 class="form-control" id="price">
                                         </div>
 
@@ -125,7 +156,7 @@
 
                                         <div class="mb-3">
                                             <label for="stock" class="form-label"> stock </label>
-                                            <input type="text" value="{{ $items->stock }}" name="stock"
+                                            <input type="number" value="{{ $items->stock }}" name="stock"
                                                 class="form-control" id="stock">
                                         </div>
 
@@ -154,7 +185,7 @@
 
             </tbody>
         </table>
-
+    </div>
 
     </div>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use DB;
+use App\Http\Requests\ProductosRequest;
 
 class ProductsController extends Controller
 {
@@ -32,57 +33,44 @@ class ProductsController extends Controller
      * @return void
      */
     //crear producto 
-    public function createProduct(Request $request)
+    public function createProduct(ProductosRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'reference' => 'required',
-            'price' => 'required',
-            'weight' => 'required',
-            'stock' => 'required',
-            'category_id' => 'required'
-        ]);
 
-
-
-        if ($request->hasFile('reference')) {
-            $file = $request->file('reference');
-            $destinationPath = "img/featureds/";
-            $filename = time() . '-' . $file->getClientOriginalName();
-            $uploadSuccess = $request->file('reference')->move($destinationPath, $filename);
+        try {
+            if ($request->hasFile('reference')) {
+                $file = $request->file('reference');
+                $destinationPath = "img/featureds/";
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $uploadSuccess = $request->file('reference')->move($destinationPath, $filename);
+            }
+            Products::create([
+                'name' => $request->name,
+                'reference' => $destinationPath . $filename,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'stock' => $request->stock,
+                'category_id' => $request->category_id
+            ]);
+            $type = "success";
+            $message = "Datos registrados correctamente ";
+        } catch (\Throwable $th) {
+            $type = "warning";
+            $message =  $th;
         }
-        Products::create([
-            'name' => $request->name,
-            'reference' => $destinationPath . $filename,
-            'price' => $request->price,
-            'weight' => $request->weight,
-            'stock' => $request->stock,
-            'category_id' => $request->category_id
-        ]);
 
-
-        return back();
+        return back()->with($type,  $message);
     }
 
-    /**
-     * @param arry Request
+    /** 
+     * @param  ProductosRequest $request
      * @var DB
      * @return void
      */
     //crear update
 
-    public function updateProduct(Request $request)
+    public function updateProduct(ProductosRequest $request)
     {
         try {
-            $request->validate([
-                'name' => 'required',
-                'reference' => 'required',
-                'price' => 'required',
-                'weight' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'id' => 'required'
-            ]);
 
             if ($request->hasFile('reference2')) {
                 $file = $request->file('reference2');
@@ -106,10 +94,13 @@ class ProductsController extends Controller
                     'category_id' => $request->category_id
                 ]);
 
-            return back();
+            $type = "success";
+            $message = "Datos registrados correctamente ";
         } catch (\Throwable $th) {
-            return response()->json($th);
+            $type = "warning";
+            $message =  $th;
         }
+        return back()->with($type,  $message);
     }
 
 
@@ -123,9 +114,12 @@ class ProductsController extends Controller
     {
         try {
             DB::table('products')->where('id', '=', $id)->delete();
-            return back();
+            $type = "success";
+            $message = "Datos eliminados correctamente ";
         } catch (\Throwable $th) {
-            return response()->json($th);
+            $type = "warning";
+            $message =  $th;
         }
+        return back()->with($type,  $message);
     }
 }

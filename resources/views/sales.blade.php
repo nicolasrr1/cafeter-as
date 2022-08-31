@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('sweetalert::alert')
+
     <div class="contenedor">
         <div class="contenedorList">
             <section>
@@ -16,11 +18,17 @@
                             <p>
                                 stock: {{ $items->stock }}
                             </p>
+                            @if ($items->stock != 0)
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop{{ $items->id }}">
+                                    Selecinar
+                                </button>
+                           
+                                
+                            @else
+                                <p>No hay unidades  <a href="/">Recarga unidades </a></p>
+                            @endif
 
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop{{ $items->id }}">
-                                Selecinar
-                            </button>
                         </div>
                         {{-- Modal de agregar producto al canasto --}}
                         <div class="modal fade" id="staticBackdrop{{ $items->id }}" data-bs-backdrop="static"
@@ -28,7 +36,8 @@
                             aria-hidden="true">
                             {{-- Formulario de canasto --}}
 
-                            <form action="">
+                            <form action="/createBasket" method="POST">
+                                @csrf
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -38,6 +47,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="alert"></div>
+                                            <input type="hidden" value="{{ $items->id }}" name="products_id">
                                             <h2>{{ $items->name }}</h2>
                                             <input type="hidden" value="{{ $items->stock }}" class="stock">
                                             <input type="hidden" value="{{ $items->price }}" class="price">
@@ -45,11 +55,13 @@
                                             <p>Peso :{{ $items->weight }}</p>
 
                                             <div class="mb-3">
-                                                <label for="cantidad" class="form-label">Cantidad</label>
-                                                <input id="amount" type="text" class="form-control amount">
+                                                <label for="amount" class="form-label">Cantidad</label>
+                                                <input id="amount" name="amount" type="number"
+                                                    class="form-control amount">
                                                 <div class="form-text">Ingrese la cantidad </div>
                                             </div>
                                             <div>
+                                                <input type="hidden" class="valueinpt" name="payment">
                                                 <p>Valor a pagar:<span class="value"></span></p>
                                                 <p>Unidades disponibles:<span class="units"></span></p>
 
@@ -75,16 +87,36 @@
         {{-- Listado producto canasto --}}
         <div class="contenbasket">
             <section class="productosDestacados">
-                <h1 class="titel">Productos destacados </h1>
+                <h2 class="titel">Total a pagar : {{ $suma }} </h2>
                 <div class="contenedorCartas">
+                    <form action="/sellBasket" method="post">
+                        @csrf
 
 
+                        <button class="btn btn-primary" type="submit">finalizar pedido </button>
+
+                        @foreach ($sale as $items)
+                            <div class="card">
+
+                                <input type="hidden" name="sale_id[]" value="{{ $items->sale_id }}">
+                                <img src="{{ $items->reference }}" alt="" />
+                                <h4>{{ $items->name }}</h4>
+                                <p>
+                                    precio : {{ $items->price }}
+                                </p>
+                                <p>
+                                    stock: {{ $items->stock }}
+                                </p>
+
+
+                            </div>
+                        @endforeach
+                    </form>
                 </div>
             </section>
         </div>
     </div>
-
 @endsection
 @section('script')
-<script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 @endsection

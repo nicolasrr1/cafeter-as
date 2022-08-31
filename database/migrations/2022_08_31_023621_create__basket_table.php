@@ -13,12 +13,13 @@ class CreateBasketTable extends Migration
      */
     public function up()
     {
-        Schema::create('basket', function (Blueprint $table) {
+        Schema::create('sale', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('products_id');
             $table->foreign('products_id')->references('id')->on('products');            
             $table->bigInteger('payment');
             $table->bigInteger('amount');
+            $table->bigInteger('condition');
 
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ class CreateBasketTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('basket');
+        Schema::dropIfExists('sale');
     }
 }

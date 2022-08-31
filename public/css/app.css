@@ -1,9 +1,9 @@
-  .contenedorList{
+.contenedorList {
     margin-left: 27%;
-  }
+}
 
-  /* Cartas de presentación  */
-  .contenedorCartas {
+/* Cartas de presentación  */
+.contenedorCartas {
     width: 100%;
     max-width: 1200px;
     height: 430px;
@@ -11,8 +11,8 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: auto;
-  }
-  .contenedorCartas .card {
+}
+.contenedorCartas .card {
     width: 330px;
     height: 430px;
     border-radius: 8px;
@@ -21,56 +21,59 @@
     margin: 20px;
     text-align: center;
     transition: all 0.25s;
-  }
-  
-  .contenedorCartas .card:hover {
+}
+
+.contenedorCartas .card:hover {
     transform: translateY(-15px);
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
-  }
-  .contenedorCartas .card img {
+}
+.contenedorCartas .card img {
     width: 330px;
     height: 220px;
-  }
-  .contenedorCartas .card h4 {
+}
+.contenedorCartas .card h4 {
     font-weight: 600;
-  }
-  
-  .contenedorCartas .card p {
+}
+
+.contenedorCartas .card p {
     padding: 0 1rem;
     font-size: 16px;
     font-weight: 300;
-  }
-  
-  p {
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* {{-- Listado producto canasto   --}} */
-
-.contenbasket{
-  width: 30%;
-  height: 100%;
-  margin-top: -18%;
-  position: absolute;
-  overflow-y: scroll;
 }
 
-.contenbasket::-webkit-scrollbar{
-  width:  7px;
+p {
+    font-family: "Roboto", sans-serif;
 }
 
+/* {{-- Listado producto canasto   --}} */
+
+.contenbasket {
+    width: 30%;
+    height: 100%;
+    margin-top: -18%;
+    position: absolute;
+    overflow-y: scroll;
+}
+
+.contenbasket::-webkit-scrollbar {
+    width: 7px;
+}
 
 .contenbasket::-webkit-scrollbar-thumb {
-  background: #000; 
-  border-radius: 5px;
+    background: #000;
+    border-radius: 5px;
 }
 
-
-.alerta{
-  display: none;
+.alerta {
+    display: none;
 }
-  
-  
-  
-  
-  
+
+.containerForm {
+    margin-left: 35%;
+    margin-top: 40px;
+}
+
+.containerTable{
+  margin-top: 40px;
+
+}

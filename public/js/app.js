@@ -8,8 +8,9 @@ $(document).ready(function () {
         let totalStock = stock - amount;
         $(".value").html(fullPayment);
         $(".units").html(totalStock);
-
-        if (amount > stock || totalStock < 0 ) {
+        $(".valueinpt").val(fullPayment);
+        
+        if ( totalStock < 0 ) {
             $(".alert").html(
                 '<div class="alert alert-warning" role="alert">Has  superado las unidades disponibles </div> '
             );
